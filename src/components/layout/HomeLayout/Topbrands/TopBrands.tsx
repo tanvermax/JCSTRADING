@@ -46,7 +46,7 @@ const topBrandsData = [
 export default function TopBrands() {
     return (
         <div>
-            <div className="md:text-base text-[10px] px-2 container mx-auto flex justify-between items-center gap-4 my-10">
+            <div className="md:text-base text-[10px] px-2  flex justify-between items-center gap-4 my-10">
                 <h1 className="text-2xl font-bold">TOP BRANDS</h1>
                 <div>
                     <Button className="md:text-md text-[10px]">View All</Button>
