@@ -41,6 +41,9 @@ export function CarouselPlugin({imgsizelg, imgsize,data,delayyime }: CarouselPlu
                             </Card>
                         </div>
                     </CarouselItem>
+
+
+
                 ))}
             </CarouselContent>
             {/* <CarouselPrevious /> */}
