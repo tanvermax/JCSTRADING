@@ -68,16 +68,15 @@ export default function TradingProduct() {
             md:px-4 lg:px-6
         ">
             <h1 className="
-                text-xl md:text-2xl font-bold 
+                text-xs md:text-2xl font-bold 
                 text-gray-900
             ">
                 TRADING PRODUCT
             </h1>
             <div>
                 <Button className="
-                    md:text-md text-[10px]
-                    bg-blue-600 hover:bg-blue-700 text-white 
-                    transition-colors duration-300
+                    md:text-md text-xs
+                     
                 ">
                     View All
                 </Button>

@@ -17,33 +17,56 @@ import { ModeToggle } from "./ModeToggler"
 
 import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api"
 import { useAppDispatch } from "@/redux/hook"
-import { Link } from "react-router"
+import { Link, useLocation } from "react-router"
 import { Input } from "../ui/input"
-import { Heart, ShoppingCartIcon } from "lucide-react"
+import { ArrowDown, Heart, ShoppingCartIcon } from "lucide-react"
 
 // Navigation links array to be used in both desktop and mobile menus
+// const navigationLinks = [
+//   { href: "/", label: "Home" },
+//   { href: "/about", label: "About" },
+//   // { href: "/", label: "Pricing" },
+//   // { href: "#", label: "About" },
+// ]
+import {
+  Home,
+  ShoppingBag,
+  Tag,
+  Store,
+  Facebook,
+  MapPin,
+  Users,
+  HelpCircle,
+} from "lucide-react";
+
+// Add a new 'icon' property to each object in the array
 const navigationLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  // { href: "/", label: "Pricing" },
-  // { href: "#", label: "About" },
-]
+  { href: "/", label: "Home", active: true, icon: Home },
+  { href: "/shop", label: "Shop", icon: ShoppingBag },
+  { href: "/offers", label: "Offers", icon: Tag },
+  { href: "/brands", label: "Brands", icon: Store },
+  { href: "/facebook", label: "Facebook", icon: Facebook },
+  { href: "/ordertrack", label: "Order Tracking", icon: MapPin },
+  { href: "/about", label: "About Us", icon: Users },
+  { href: "/help", label: "Help", icon: HelpCircle },
+];
+
 
 export default function Navber() {
   const { data } = useUserInfoQuery(undefined);
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
-
+   const location = useLocation();
 
   console.log(data?.data?.email);
 
   const handlelogout = async () => {
-   await logout(undefined);
+    await logout(undefined);
     dispatch(authApi.util.resetApiState());
-    
+
   }
   return (
-    <header className=" container mx-auto border-b px-4 md:px-6">
+    <header className=" container mx-auto  px-4 md:px-6">
       <div className="flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
@@ -87,8 +110,8 @@ export default function Navber() {
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
                     <NavigationMenuItem key={index} className="w-full ">
-                      <NavigationMenuLink asChild  href={link.href} className="py-1.5 ">
-                        <Link  to={link.href}>{link.label}</Link>
+                      <NavigationMenuLink asChild href={link.href} className="py-1.5 ">
+                        <Link to={link.href}>{link.label}</Link>
 
                       </NavigationMenuLink>
                     </NavigationMenuItem>
@@ -103,7 +126,7 @@ export default function Navber() {
               <Logo />
             </a>
             {/* Navigation menu */}
-            <NavigationMenu className="max-md:hidden">
+            {/* <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
                   <NavigationMenuItem key={index}>
@@ -116,39 +139,71 @@ export default function Navber() {
                   </NavigationMenuItem>
                 ))}
               </NavigationMenuList>
-            </NavigationMenu>
+            </NavigationMenu> */}
           </div>
         </div>
         <div className="w-2xl max-w-md hidden md:block">
-          <Input type="text"  placeholder="Search..." />
+          <Input type="text" placeholder="Search..." />
         </div>
         {/* Right side */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <Heart className="hidden md:block"/>
-            <ShoppingCartIcon className="text-[#FF781A]"/>
+            <Heart className="hidden md:block" />
+            <ShoppingCartIcon className="text-[#FF781A]" />
             <ModeToggle />
             {/* Info menu */}
-             {
-            data?.data?.email && (<>
-              <UserMenu />
-              <Button asChild className="text-sm">
-                <Link onClick={handlelogout}  to="/">Logout</Link>
-              </Button></>)
+            {
+              data?.data?.email && (<>
+                <UserMenu />
+                <Button asChild className="text-sm">
+                  <Link onClick={handlelogout} to="/">Logout</Link>
+                </Button></>)
 
-          }
-          {
-            !data?.data?.email && <Button asChild className="text-sm">
-              <Link to="/login">Login</Link>
-            </Button>
-          }
+            }
+            {
+              !data?.data?.email && <Button asChild className="text-sm">
+                <Link to="/login">Login</Link>
+              </Button>
+            }
             {/* <InfoMenu /> */}
             {/* Notification */}
             {/* <NotificationMenu /> */}
           </div>
           {/* User menu */}
 
-         
+
+        </div>
+      </div>
+      <div>
+        <div className=" container mx-auto  py-2 max-md:hidden flex justify-around" >
+          {/* Navigation menu */}
+          <NavigationMenu>
+            <NavigationMenuList className="gap-2">
+              {navigationLinks.map((link, index) => {
+                // Determine if the link is active by comparing the current pathname
+                const isActive = location.pathname === link.href;
+
+                return (
+                  <NavigationMenuItem key={index}>
+                    <NavigationMenuLink
+                      // Pass the dynamic isActive state here
+                      active={isActive}
+                      asChild
+                      className={`text-muted-foreground hover:text-primary py-1.5 font-medium data-[active]:text-primary`}
+                    >
+                      <Link to={link.href}>
+                        <span className="flex gap-3 text-base items-center">
+                          {link.icon && <link.icon size={16} />}
+                          {link.label}
+                        </span>
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                   );
+              })}
+            </NavigationMenuList>
+          </NavigationMenu>
+          <Button>Category <ArrowDown/> </Button>
         </div>
       </div>
     </header>

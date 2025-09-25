@@ -47,7 +47,7 @@ export default function TopBrands() {
     return (
         <div>
             <div className="md:text-base text-[10px] px-2  flex justify-between items-center gap-4 my-10">
-                <h1 className="text-2xl font-bold">TOP BRANDS</h1>
+                <h1 className="md:text-2xl text-xs font-bold">TOP BRANDS</h1>
                 <div>
                     <Button className="md:text-md text-[10px]">View All</Button>
                 </div>
@@ -56,15 +56,14 @@ export default function TopBrands() {
                 <div className="flex gap-4 py-5 flex-nowrap justify-start"> {/* Flex container for logos */}
                     {topBrandsData.map((brand) => (
                         <div key={brand.id} className="text-center flex-none w-1/4 sm:w-1/5 md:w-1/6 lg:w-1/8 p-2"> {/* Responsive width for each logo */}
-                            <div className="bg-white p-4 rounded-lg shadow-md flex items-center justify-center h-24 border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+                            <div className=" flex items-center justify-center ">
                                 <img
                                     src={brand.logo}
                                     alt={brand.name}
-                                    width={120} // Adjust based on desired logo size
-                                    height={60}  // Adjust based on desired logo size
+                                   className=" md:w-full md:h-[150px] w-[90px] h-[50px]" // Adjust based on desired logo size
                                 />
                             </div>
-                            <h1>{brand.name}</h1>
+                            <h1 className="md:text-xl  text-xs font-semibold">{brand.name}</h1>
 
                         </div>
                     ))}
