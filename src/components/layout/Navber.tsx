@@ -19,6 +19,7 @@ import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/a
 import { useAppDispatch } from "@/redux/hook"
 import { Link } from "react-router"
 import { Input } from "../ui/input"
+import { Heart, ShoppingCartIcon } from "lucide-react"
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -124,6 +125,8 @@ export default function Navber() {
         {/* Right side */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
+            <Heart className="hidden md:block"/>
+            <ShoppingCartIcon className="text-[#FF781A]"/>
             <ModeToggle />
             {/* Info menu */}
              {
