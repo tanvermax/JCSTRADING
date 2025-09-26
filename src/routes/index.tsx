@@ -1,5 +1,4 @@
 import App from "@/App";
-import AdminLayout from "@/components/layout/AdminLayout";
 import DashbordLayout from "@/components/layout/DashbordLayout";
 import About from "@/pages/About";
 import Analytic from "@/pages/Admin/Analytic";
@@ -23,31 +22,27 @@ const router = createBrowserRouter([
                 path: "/",
                 Component: Home,
             },
-            {
-                Component: DashbordLayout,
-                path: "/admin",
-                children: [
-                    {
-                        Component: Analytic,
-                        path: "analytic"
-                    }
-                ]
-            },
-            {
-                Component: DashbordLayout,
-                path: "/user",
-                children: [
-                    {
-                        Component: Booking,
-                        path: "bookings"
-                    }
-                ]
-            }
+
         ]
     }, {
-        Component: AdminLayout,
+        Component: DashbordLayout,
         path: "/admin",
-
+        children: [
+            {
+                Component: Analytic,
+                path: "analytic"
+            }
+        ]
+    },
+    {
+        Component: DashbordLayout,
+        path: "/user",
+        children: [
+            {
+                Component: Booking,
+                path: "bookings"
+            }
+        ]
     },
     {
         Component: Login,
