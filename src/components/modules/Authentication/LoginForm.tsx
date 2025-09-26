@@ -31,22 +31,22 @@ export function LoginForm({
 
 
     } catch (err) {
-      console.error(err)
-      if (err.data.message === 'Password does not match') {
-        toast.error(err.data.message);
-          // navigate("/verify", { state: data.email })
+      // console.error(err)
+      // if (err.data.message === 'Password does not match') {
+      //   toast.error(err.data.message);
+      //     // navigate("/verify", { state: data.email })
 
-      } else
-        if (err.data.message === 'User is not verified') {
-          toast.error("Your account is not verified");
-          navigate("/verify", { state: data.email })
-        }
+      // } else
+      //   if (err.data.message === 'User is not verified') {
+      //     toast.error("Your account is not verified");
+      //     navigate("/verify", { state: data.email })
+      //   }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // if (typeof err === "object" && err !== null && "status" in err && (err as any).status === 401) {
-      //   toast.error("Your account is not verified");
-      //   console.log("Your account is not verified");
-      //   navigate("/verify", { state: data.email });
-      // }
+      if (typeof err === "object" && err !== null && "status" in err && (err as any).status === 401) {
+        toast.error("Your account is not verified");
+        console.log("Your account is not verified");
+        navigate("/verify", { state: data.email });
+      }
     }
   }
 /* http://localhost:5000/api/v1/auth/google/ */
