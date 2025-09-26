@@ -24,9 +24,7 @@ const router = createBrowserRouter([
                 path: "/",
                 Component: Home,
             },
-
-        ]
-    }, {
+             {
         Component: DashbordLayout,
         path: "/admin",
         children: [
@@ -44,6 +42,11 @@ const router = createBrowserRouter([
             }
         ]
     },
+
+        ]
+    }
+    ,
+    
     {
         Component: DashbordLayout,
         path: "/user",
