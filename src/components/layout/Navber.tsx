@@ -125,21 +125,7 @@ export default function Navber() {
             <a href="#" className="text-primary   hover:text-primary/90">
               <Logo />
             </a>
-            {/* Navigation menu */}
-            {/* <NavigationMenu className="max-md:hidden">
-              <NavigationMenuList className="gap-2">
-                {navigationLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
-                    <NavigationMenuLink
-                      asChild
-                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                    >
-                      <Link to={link.href}>{link.label}</Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu> */}
+         
           </div>
         </div>
         <div className="w-2xl max-w-md hidden md:block">
