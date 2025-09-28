@@ -65,10 +65,10 @@ export default function Navber() {
     dispatch(authApi.util.resetApiState());
 
   }
-  if (location.pathname.includes("admin") || location.pathname.includes("user")) {
-    return null;
+  // if (location.pathname.includes("admin") || location.pathname.includes("user")) {
+  //   return null;
     
-  }
+  // }
   return (
     <header className=" container mx-auto  px-4 md:px-6">
       <div className="flex h-16 items-center justify-between gap-4">
