@@ -1,15 +1,14 @@
 import { Outlet } from "react-router"
 import CommonLayout from "./components/layout/CommoneLayout"
-import { Toaster } from "sonner"
-
+import { ToastContainer} from 'react-toastify';
 
 function App() {
 
   return (
     <CommonLayout>
+      <ToastContainer />
 
       <Outlet />
-      <Toaster />
 
     </CommonLayout>
   )

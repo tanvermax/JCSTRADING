@@ -144,7 +144,7 @@ export default function Navber() {
             {/* Info menu */}
             {
               data?.data?.email && (<>
-                <UserMenu />
+                <UserMenu userData={data?.data} />
                 <Button asChild className="text-sm">
                   <Link onClick={handlelogout} to="/">Logout</Link>
                 </Button></>)

@@ -1,4 +1,4 @@
-import { ProductCard } from "./ProductCard";
+import { ProductAddForm } from "./ProductAddForm";
 
 
 export default function AddProduct() {
@@ -9,7 +9,7 @@ export default function AddProduct() {
 
 
     <div>
-        <ProductCard/>
+        <ProductAddForm/>
     </div>
   )
 }

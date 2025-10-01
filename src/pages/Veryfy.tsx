@@ -1,3 +1,4 @@
+import Logo from "@/assets/icons/logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -57,6 +58,9 @@ export default function Veryfy() {
             const res = await verifyOtp(userInfo).unwrap();
             console.log(res.success)
             if (res.success) {
+                navigate("/")
+                console.log("OTP Verifyed successfully")
+
                 toast.success("OTP Verifyed successfully", { id: toastId });
             }
         } catch (error) {
@@ -92,11 +96,13 @@ export default function Veryfy() {
 
 
     return (
-        <div className="grid place-content-center h-screen">
+        <div className="grid place-content-center rounded-3xl h-screen">
             {
                 confirm ? (<Card>
                     <CardHeader>
                         <CardTitle className="text-xl">Verify you email address</CardTitle>
+                       
+
                         <CardDescription>
                             Please enter the 6 digit code we sent to <br /> {email}
                         </CardDescription>
@@ -156,8 +162,9 @@ export default function Veryfy() {
                     <CardFooter className="flex justify-end">
                         <Button form="ottform" type="submit">Submit OTP</Button>
                     </CardFooter>
-                </Card>) : (<Card>
+                </Card>) : (<Card className="rounded-2xl p-5">
                     <CardHeader>
+                        <Logo/>
                         <CardTitle className="text-xl">Verify you email address</CardTitle>
                         <CardDescription>
                             We will send  you an OTP at  <br /> {email}

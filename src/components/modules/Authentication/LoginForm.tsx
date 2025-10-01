@@ -21,35 +21,40 @@ export function LoginForm({
     try {
       const res = await login(data).unwrap();
       console.log(res)
+      navigate("/")
       toast("Event has been created", {
         description: "Sunday, December 03, 2023 at 9:00 AM",
         action: {
           label: "Undo",
           onClick: () => console.log("Undo"),
         },
+
       })
+      // navigate("/")
 
 
-    } catch (err) {
-      // console.error(err)
-      // if (err.data.message === 'Password does not match') {
-      //   toast.error(err.data.message);
-      //     // navigate("/verify", { state: data.email })
-
-      // } else
-      //   if (err.data.message === 'User is not verified') {
-      //     toast.error("Your account is not verified");
-      //     navigate("/verify", { state: data.email })
-      //   }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (typeof err === "object" && err !== null && "status" in err && (err as any).status === 401) {
-        toast.error("Your account is not verified");
-        console.log("Your account is not verified");
-        navigate("/verify", { state: data.email });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err : any) {
+      console.error(err)
+      if (err.data.message === "User does not exist") {
+        toast.error(err.data.message);
+        console.log(err.data.message)
       }
+      if (err.data.message === 'Password does not match') {
+        toast.error(err.data.message);
+        console.log(err.data.message)
+
+      } else
+        if (err.data.message === 'User is not verified') {
+          toast.error("Your account is not verified");
+          console.log(err.data.message)
+
+          navigate("/verify", { state: data.email })
+        }
+      
     }
   }
-/* http://localhost:5000/api/v1/auth/google/ */
+  /* http://localhost:5000/api/v1/auth/google/ */
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -114,7 +119,7 @@ export function LoginForm({
 
         <Button
           type="button"
-          onClick={()=>window.open(`${config.baseUrl}/auth/google/`,"_self")}
+          onClick={() => window.open(`${config.baseUrl}/auth/google/`, "_self")}
           variant="outline"
           className="w-full cursor-pointer"
         >
