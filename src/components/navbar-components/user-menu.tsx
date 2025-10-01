@@ -24,6 +24,8 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar"
 import { UserRound } from "lucide-react"
+import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api"
+import { useAppDispatch } from "@/redux/hook"
 
 // import UserIcon from "../ui/userIcon";
 export interface IUser {
@@ -38,6 +40,13 @@ interface UserMenuProps {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function UserMenu({ userData }: UserMenuProps) {
+   const [logout] = useLogoutMutation();
+  const dispatch = useAppDispatch();
+const handlelogout = async () => {
+    await logout(undefined);
+    dispatch(authApi.util.resetApiState());
+
+  }
   console.log(userData)
   return (
     <DropdownMenu>
@@ -111,8 +120,10 @@ export default function UserMenu({ userData }: UserMenuProps) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <span>Logout</span>
+          
+          <Button onClick={handlelogout}>
+            <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />logout</Button>
+          {/* <span>Logout</span> */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

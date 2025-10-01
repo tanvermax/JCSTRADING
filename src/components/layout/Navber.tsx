@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/popover"
 import { ModeToggle } from "./ModeToggler"
 
-import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api"
-import { useAppDispatch } from "@/redux/hook"
+import {  useUserInfoQuery } from "@/redux/features/auth/auth.api"
+
 import { Link, useLocation } from "react-router"
 import { Input } from "../ui/input"
 import { ArrowDown, Heart, ShoppingCartIcon } from "lucide-react"
@@ -54,17 +54,12 @@ const navigationLinks = [
 
 export default function Navber() {
   const { data } = useUserInfoQuery(undefined);
-  const [logout] = useLogoutMutation();
-  const dispatch = useAppDispatch();
+ 
    const location = useLocation();
 
   console.log(data?.data?.email);
 
-  const handlelogout = async () => {
-    await logout(undefined);
-    dispatch(authApi.util.resetApiState());
-
-  }
+  
   // if (location.pathname.includes("admin") || location.pathname.includes("user")) {
   //   return null;
     
@@ -145,9 +140,7 @@ export default function Navber() {
             {
               data?.data?.email && (<>
                 <UserMenu userData={data?.data} />
-                <Button asChild className="text-sm">
-                  <Link onClick={handlelogout} to="/">Logout</Link>
-                </Button></>)
+                </>)
 
             }
             {
