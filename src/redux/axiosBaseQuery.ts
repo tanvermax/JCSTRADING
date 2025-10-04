@@ -18,13 +18,20 @@ const axiosBaseQuery =
   > =>
   async ({ url, method, data, params, headers }) => {
     try {
+       const requestHeaders: AxiosRequestConfig['headers'] = { ...headers };
+      
+      if (!(data instanceof FormData)) {
+        // Only set Content-Type for non-FormData requests
+        requestHeaders['Content-Type'] = 'application/json';
+      }
       const result = await axiosInstance({
         url:  url,
         method,
         data,
         params,
-        headers,
+        headers:requestHeaders,
       })
+      // console.log(result)
       return { data: result.data }
     } catch (axiosError) {
       const err = axiosError as AxiosError

@@ -45,7 +45,7 @@ const navigationLinks = [
   { href: "/shop", label: "Shop", icon: ShoppingBag },
   { href: "/offers", label: "Offers", icon: Tag },
   { href: "/brands", label: "Brands", icon: Store },
-  { href: "/admin/add-product", label: "Facebook", icon: Facebook },
+  { href: "/facebook", label: "Facebook", icon: Facebook },
   { href: "/ordertrack", label: "Order Tracking", icon: MapPin },
   { href: "/about", label: "About Us", icon: Users },
   { href: "/help", label: "Help", icon: HelpCircle },
@@ -57,7 +57,7 @@ export default function Navber() {
  
    const location = useLocation();
 
-  console.log(data?.data?.email);
+  // console.log(data?.data?.email);
 
   
   // if (location.pathname.includes("admin") || location.pathname.includes("user")) {

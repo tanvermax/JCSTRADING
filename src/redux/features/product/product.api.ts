@@ -1,17 +1,26 @@
 import { baseApi } from "@/redux/baseApi";
 
 export const productapi = baseApi.injectEndpoints({
-    endpoints: (builder) => ({
-        addproduct: builder.mutation({
-            query: (productinfo) => ({
-                url: "product/add-product",
-                method: "POST",
-                data: productinfo
-            })
-        }),
-    })
-})
+  endpoints: (builder) => ({
+    createProduct: builder.mutation({
+      query: (addProduct) => {
+        return {
+          url: '/product/create-product',
+          method: 'POST',
+          data: addProduct
+        };
+      },
+      invalidatesTags: ['PRODUCT'],
+    }),
+    allproduct: builder.query({
+      query: () => ({
+        url: "/product",
+        method: "GET",
+      }),
+      transformResponse: (arg) => arg.data,
+    }),
+  }),
+});
 
 
-export const {useAddproductMutation}= productapi
-       
+export const { useAllproductQuery, useCreateProductMutation } = productapi

@@ -12,140 +12,21 @@ import {
 } from "@/components/ui/sidebar"
 import Logo from "@/assets/icons/logo"
 import { Link } from "react-router"
+// import { adminSidebarItem } from "@/routes/adminSideberitem"
+import { getSidebarItems } from "@/utils/getSidebaritem"
+import { useUserInfoQuery } from "@/redux/features/auth/auth.api"
 
 // This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Admin Dashboard",
-      url: "#",
-      items: [
-        {
-          title: "User Guide",
-          url: "/admin/users",
-        },
-        {
-          title: "Add Product",
-          url: "/admin/add-product",
 
-        },
-      ],
-    },
-    // {
-    //   title: "Building Your Application",
-    //   url: "#",
-    //   items: [
-    //     {
-    //       title: "Routing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Data Fetching",
-    //       url: "#",
-    //       isActive: true,
-    //     },
-    //     {
-    //       title: "Rendering",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Caching",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Styling",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Optimizing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Configuring",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Testing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Authentication",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Deploying",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Upgrading",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Examples",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "API Reference",
-    //   url: "#",
-    //   items: [
-    //     {
-    //       title: "Components",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "File Conventions",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Functions",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "next.config.js Options",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "CLI",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Edge Runtime",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Architecture",
-    //   url: "#",
-    //   items: [
-    //     {
-    //       title: "Accessibility",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Fast Refresh",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Next.js Compiler",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Supported Browsers",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Turbopack",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-  ],
-}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: userData } = useUserInfoQuery(undefined);
+  console.log(userData)
+  const data = {
+    navMain: getSidebarItems(userData?.data?.role)
+  }
+
+  // console.log(data)
   return (
     <Sidebar {...props}>
       {/* <SidebarHeader>
@@ -155,9 +36,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         />
         <SearchForm />
       </SidebarHeader> */}
-    <Link to={"/"} className="p-4">
-        <Logo/>
-    </Link>
+      <Link to={"/"} className="p-4">
+        <Logo />
+      </Link>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
         {data.navMain.map((item) => (
@@ -167,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenu>
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild 
+                    <SidebarMenuButton asChild
                     // isActive={item.isActive}
                     >
                       {/* <a href={item.url}>{item.title}</a> */}

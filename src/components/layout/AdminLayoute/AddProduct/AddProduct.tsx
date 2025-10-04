@@ -1,4 +1,4 @@
-import { ProductAddForm } from "./ProductAddForm";
+import ProductAddForm from "./ProductAddForm";
 
 
 export default function AddProduct() {

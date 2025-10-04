@@ -3,7 +3,7 @@ import {
   BookOpenIcon,
   Layers2Icon,
   LogOutIcon,
-  PinIcon,
+
   UserPenIcon,
 } from "lucide-react"
 
@@ -26,6 +26,7 @@ import {
 import { UserRound } from "lucide-react"
 import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api"
 import { useAppDispatch } from "@/redux/hook"
+import { Link } from "react-router"
 
 // import UserIcon from "../ui/userIcon";
 export interface IUser {
@@ -40,14 +41,14 @@ interface UserMenuProps {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function UserMenu({ userData }: UserMenuProps) {
-   const [logout] = useLogoutMutation();
+  const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
-const handlelogout = async () => {
+  const handlelogout = async () => {
     await logout(undefined);
     dispatch(authApi.util.resetApiState());
 
   }
-  console.log(userData)
+  // console.log(userData)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -95,32 +96,39 @@ const handlelogout = async () => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <BoltIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 1</span>
+            {/* {
+              userData.role === "ADMIN" ? (<> */}
+                {/* <BoltIcon size={16} className="opacity-60" aria-hidden="true" />
+                <Link to={"admin/add-product"}>Amin Panel</Link> */}
+              {/* </>) : ""
+            }
+            { */}
+              {/* userData.role === "USER" ? (<> */}
+                <BoltIcon size={16} className="opacity-60" aria-hidden="true" />
+                <Link to={"admin/add-product"}>Dashboard</Link>
+              {/* </>) : ""
+            } */}
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Layers2Icon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 2</span>
+            <span>favorite</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <BookOpenIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 3</span>
+            <span>Orders History</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <PinIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 4</span>
-          </DropdownMenuItem>
+          
           <DropdownMenuItem>
             <UserPenIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 5</span>
+            <span>Account Settings</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          
+
           <Button onClick={handlelogout}>
             <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />logout</Button>
           {/* <span>Logout</span> */}
