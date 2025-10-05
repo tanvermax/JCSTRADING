@@ -8,7 +8,7 @@ import type { ISidebarItem } from "@/types";
       url: "#",
       items: [
         {
-          title: "User Guide",
+          title: "All Product",
           url: "/admin/users",
           component:Allproduct
         },

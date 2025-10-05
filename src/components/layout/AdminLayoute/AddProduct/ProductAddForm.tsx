@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import SingleImageUploader from "./SingleImageUploader";
+import { Checkbox } from "@/components/ui/checkbox";
+import TagInput from "@/components/ui/TagInput";
 
 interface IProduct {
   _id?: string;
@@ -17,12 +19,14 @@ interface IProduct {
   brand?: string;
   sku?: string;
   images?: string;
+  newproduct?: boolean;
+  tags?: string[]; 
 }
 
 export default function ProductAddForm() {
   const [addProduct] = useCreateProductMutation();
   const [image, setImage] = useState<File | null>(null);
-  
+
   const [file, setFile] = useState<File | null>(null);
   const form = useForm<IProduct>(
     {
@@ -34,6 +38,9 @@ export default function ProductAddForm() {
         category: "",
         brand: "",
         sku: "",
+        newproduct: false,
+        tags:[],
+        
       },
     }
   );
@@ -52,9 +59,9 @@ export default function ProductAddForm() {
       if (file) {
         formData.append("file", file);
       }
-      console.log(data);
+      console.log("data",data);
       console.log(formData);
-      console.log(formData.get("file"));
+      // console.log(formData.get("file"));
 
       // send via RTK Query
       const res = await addProduct(formData).unwrap();
@@ -172,6 +179,42 @@ export default function ProductAddForm() {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="newproduct"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>New product</FormLabel>
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="tags"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tags</FormLabel>
+                <FormControl>
+                  {/* The TagInput component expects value (string[]), onChange, and onBlur */}
+                  <TagInput
+                    {...field}
+                    // Ensure the initial value is always an array
+                    value={field.value || []} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
 
           {/* File input (special handling) */}
           <SingleImageUploader onChange={setImage} />
