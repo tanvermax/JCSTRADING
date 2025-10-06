@@ -3,13 +3,17 @@
 import { Button } from "@/components/ui/button";
 
 interface ProductCardProps {
+    id: string;
     name: string;
     price: number;
     oldPrice?: number; // Add optional oldPrice
     image: string;
+    description:string
 }
 
-export default function ProductCard({ name, price, oldPrice, image }: ProductCardProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function ProductCard({id, name, price, oldPrice, image }: ProductCardProps) {
+    // console.log(id)
     return (
         <div className="card w-full bg-base-100 shadow-xl border overflow-hidden">
             <img

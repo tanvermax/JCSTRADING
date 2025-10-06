@@ -44,6 +44,7 @@ export const authApi = baseApi.injectEndpoints({
             query: () => ({
                 url: "/user/me",
                 method: "GET",
+                withCredentials: true
             }),
             providesTags:["USER"]
         })
