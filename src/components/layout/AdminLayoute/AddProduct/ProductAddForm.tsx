@@ -8,6 +8,7 @@ import { useState } from "react";
 import SingleImageUploader from "./SingleImageUploader";
 import { Checkbox } from "@/components/ui/checkbox";
 import TagInput from "@/components/ui/TagInput";
+import { toast } from "sonner";
 
 interface IProduct {
   _id?: string;
@@ -20,59 +21,115 @@ interface IProduct {
   sku?: string;
   images?: string;
   newproduct?: boolean;
-  tags?: string[]; 
+  tags?: string[];
 }
 
 export default function ProductAddForm() {
   const [addProduct] = useCreateProductMutation();
   const [image, setImage] = useState<File | null>(null);
-
   const [file, setFile] = useState<File | null>(null);
-  const form = useForm<IProduct>(
-    {
-      defaultValues: {
-        title: "",
-        description: "",
-        price: undefined,
-        stock: undefined,
-        category: "",
-        brand: "",
-        sku: "",
-        newproduct: false,
-        tags:[],
-        
-      },
-    }
-  );
-  console.log("Selected file:", image);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<IProduct>({
+    defaultValues: {
+      title: "",
+      description: "",
+      price: undefined,
+      stock: undefined,
+      category: "",
+      brand: "",
+      sku: "",
+      newproduct: false,
+      tags: [],
+    },
+  });
 
   const onSubmit = async (data: IProduct) => {
-    try {
-      // convert to FormData
-      const formData = new FormData();
+    if (!image) {
+      toast.error("Please select an image");
+      return;
+    }
 
+    setIsSubmitting(true);
+
+    try {
+      // Convert to FormData
+      const formData = new FormData();
       formData.append("data", JSON.stringify(data));
       formData.append("file", image as File);
 
-
-      // append file (important)
       if (file) {
         formData.append("file", file);
       }
-      console.log("data",data);
-      console.log(formData);
-      // console.log(formData.get("file"));
 
-      // send via RTK Query
+      // Show loading toast and wait for promise
+      await toast.promise(
+        addProduct(formData).unwrap(),
+        {
+          loading: 'Please wait, product is adding...',
+          success: (res) => {
+            console.log("✅ Product Added:", res);
+            form.reset();
+            setFile(null);
+            setImage(null);
+            return 'Product added successfully! 🎉';
+          },
+          error: (error: any) => {
+            console.error("❌ Error adding product:", error);
+            return `Failed to add product: ${error?.data?.message || "Unknown error"}`;
+          },
+        }
+      );
+
+    } catch (error: any) {
+      // This will be handled by the toast.promise error above
+      console.error("❌ Error in form submission:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Alternative approach with manual toast control (if you prefer more control)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onSubmitAlternative = async (data: IProduct) => {
+    if (!image) {
+      toast.error("Please select an image");
+      return;
+    }
+
+    const toastId = toast.loading("Please wait, product is adding...");
+
+    try {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(data));
+      formData.append("file", image as File);
+
+      if (file) {
+        formData.append("file", file);
+      }
+
       const res = await addProduct(formData).unwrap();
-
+      
       console.log("✅ Product Added:", res);
-      alert("Product added successfully!");
+      
+      // Update the loading toast to success
+      toast.success("Product added successfully! 🎉", {
+        id: toastId,
+        duration: 4000,
+      });
+
       form.reset();
       setFile(null);
+      setImage(null);
+
     } catch (error: any) {
       console.error("❌ Error adding product:", error);
-      alert("Failed to add product: " + (error?.data?.message || "Unknown error"));
+      
+      // Update the loading toast to error
+      toast.error(`Failed to add product: ${error?.data?.message || "Unknown error"}`, {
+        id: toastId,
+        duration: 5000,
+      });
     }
   };
 
@@ -117,7 +174,13 @@ export default function ProductAddForm() {
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Price" {...field} value={field.value || ""} />
+                  <Input 
+                    type="number" 
+                    placeholder="Price" 
+                    {...field} 
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -131,7 +194,13 @@ export default function ProductAddForm() {
               <FormItem>
                 <FormLabel>Stock</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Stock" {...field} value={field.value || ""} />
+                  <Input 
+                    type="number" 
+                    placeholder="Stock" 
+                    {...field} 
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value === "" ? undefined : Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -179,35 +248,36 @@ export default function ProductAddForm() {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="newproduct"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>New product</FormLabel>
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                 <FormControl>
                   <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}
-                  
                   />
                 </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>New Product</FormLabel>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
           />
-           <FormField
+
+          <FormField
             control={form.control}
             name="tags"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tags</FormLabel>
                 <FormControl>
-                  {/* The TagInput component expects value (string[]), onChange, and onBlur */}
                   <TagInput
                     {...field}
-                    // Ensure the initial value is always an array
-                    value={field.value || []} 
+                    value={field.value || []}
                   />
                 </FormControl>
                 <FormMessage />
@@ -215,14 +285,18 @@ export default function ProductAddForm() {
             )}
           />
 
-
           {/* File input (special handling) */}
           <SingleImageUploader onChange={setImage} />
         </form>
       </Form>
 
-      <Button disabled={!image} type="submit" form="add-product-form" className="mt-4 w-full">
-        Save Product
+      <Button 
+        disabled={!image || isSubmitting} 
+        type="submit" 
+        form="add-product-form" 
+        className="mt-4 w-full"
+      >
+        {isSubmitting ? "Adding Product..." : "Save Product"}
       </Button>
     </div>
   );
